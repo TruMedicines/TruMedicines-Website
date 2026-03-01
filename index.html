@@ -4,81 +4,885 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TruMedicines - Your Trusted Health Partner</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --sage: #4a7c59;
+            --sage-light: #6fa882;
+            --sage-pale: #eaf2ec;
+            --cream: #faf8f4;
+            --charcoal: #1a1f1c;
+            --text-mid: #4a5450;
+            --white: #ffffff;
+            --accent: #c8a96e;
+            --accent-light: #f0e6d3;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5vw;
+            background: rgba(250, 248, 244, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(74,124,89,0.12);
+            transition: box-shadow 0.3s;
+        }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(26,31,28,0.08); }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--sage);
+            letter-spacing: -0.5px;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.2rem;
+        }
+        nav ul a {
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-mid);
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: color 0.2s;
+        }
+        nav ul a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0;
+            width: 0; height: 2px;
+            background: var(--sage);
+            transition: width 0.25s;
+        }
+        nav ul a:hover { color: var(--sage); }
+        nav ul a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--sage);
+            color: var(--white) !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { background: var(--sage-light); color: var(--white) !important; }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 8rem 5vw 5rem;
+            gap: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 70% at 70% 50%, var(--sage-pale) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .hero-content { position: relative; z-index: 1; }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--sage);
+            background: var(--sage-pale);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.2s forwards;
+        }
+        .hero-eyebrow::before {
+            content: '✦';
+            color: var(--accent);
+        }
+
+        #hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            color: var(--charcoal);
+            opacity: 0;
+            animation: fadeUp 0.7s 0.35s forwards;
+        }
+        #hero h1 em {
+            font-style: normal;
+            color: var(--sage);
+        }
+
+        .hero-sub {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-mid);
+            line-height: 1.7;
+            max-width: 480px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.5s forwards;
+        }
+
+        .hero-actions {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.65s forwards;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--sage);
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 24px rgba(74,124,89,0.3);
+        }
+        .btn-primary:hover {
+            background: var(--sage-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(74,124,89,0.35);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            color: var(--sage);
+            text-decoration: none;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1.5px solid var(--sage);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-secondary:hover {
+            background: var(--sage-pale);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1s 0.5s forwards;
+        }
+
+        .hero-card {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 2.5rem;
+            width: 340px;
+            box-shadow: 0 20px 60px rgba(26,31,28,0.12);
+            position: relative;
+        }
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 100px; height: 100px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .card-icon {
+            width: 56px; height: 56px;
+            background: var(--sage-pale);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+        }
+        .hero-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; }
+
+        .stat-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(74,124,89,0.12);
+        }
+        .stat { text-align: center; flex: 1; }
+        .stat-num {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--sage);
+        }
+        .stat-label { font-size: 0.72rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.06em; }
+
+        /* ── SECTION SHARED ── */
+        section {
+            padding: 7rem 5vw;
+        }
+        .section-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            color: var(--charcoal);
+            margin-bottom: 1.2rem;
+        }
+        .section-sub {
+            font-size: 1rem;
+            color: var(--text-mid);
+            max-width: 520px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ── FEATURES ── */
+        #features { background: var(--white); }
+        .features-header { margin-bottom: 4rem; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(74,124,89,0.1);
+            transition: transform 0.25s, box-shadow 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sage), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(74,124,89,0.12); }
+        .feature-card:hover::after { transform: scaleX(1); }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+        }
+        .feature-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.65; }
+
+        /* ── HOW IT WORKS ── */
+        #how-it-works { background: var(--sage-pale); }
+        .how-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+        .steps { display: flex; flex-direction: column; gap: 2rem; }
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 48px; height: 48px;
+            background: var(--sage);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .step-content h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        .step-content p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; }
+
+        .how-visual {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 3rem;
+            box-shadow: 0 12px 40px rgba(26,31,28,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .progress-item { display: flex; flex-direction: column; gap: 0.4rem; }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .progress-bar {
+            height: 8px;
+            background: var(--sage-pale);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sage), var(--sage-light));
+            border-radius: 50px;
+            animation: grow 1.5s ease-out forwards;
+        }
+
+        @keyframes grow { from { width: 0; } }
+
+        /* ── TESTIMONIALS ── */
+        #testimonials { background: var(--charcoal); color: var(--white); }
+        #testimonials .section-title { color: var(--white); }
+        #testimonials .section-sub { color: rgba(255,255,255,0.55); }
+        #testimonials .section-tag { color: var(--accent); }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: background 0.25s;
+        }
+        .testimonial-card:hover { background: rgba(255,255,255,0.08); }
+
+        .stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+        .testimonial-card blockquote {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .testimonial-card cite {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.45);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* ── FAQ ── */
+        #faq { background: var(--white); }
+        .faq-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 5rem;
+            margin-top: 1rem;
+            align-items: start;
+        }
+        .faq-items { display: flex; flex-direction: column; gap: 1rem; }
+
+        .faq-item {
+            border: 1px solid rgba(74,124,89,0.15);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .faq-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .faq-btn:hover { background: var(--sage-pale); }
+        .faq-btn .icon {
+            width: 24px; height: 24px;
+            background: var(--sage-pale);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            color: var(--sage);
+            flex-shrink: 0;
+            transition: transform 0.3s, background 0.2s;
+        }
+        .faq-btn.open .icon { transform: rotate(45deg); background: var(--sage); color: var(--white); }
+
+        .faq-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.2s;
+        }
+        .faq-body.open { max-height: 200px; }
+        .faq-body p {
+            padding: 0 1.5rem 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            line-height: 1.7;
+        }
+
+        /* ── CONTACT ── */
+        #contact { background: var(--cream); }
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 5rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+        .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-chip {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .contact-chip-icon {
+            width: 44px; height: 44px;
+            background: var(--sage-pale);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+        .contact-chip-text strong { display: block; font-size: 0.85rem; }
+        .contact-chip-text span { font-size: 0.82rem; color: var(--text-mid); }
+
+        form { display: flex; flex-direction: column; gap: 1.2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        label { font-size: 0.82rem; font-weight: 500; color: var(--charcoal); letter-spacing: 0.02em; }
+
+        input, textarea {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            padding: 0.8rem 1.1rem;
+            border: 1.5px solid rgba(74,124,89,0.2);
+            border-radius: 12px;
+            background: var(--white);
+            color: var(--charcoal);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
+        }
+        textarea { resize: vertical; min-height: 130px; }
+
+        form .btn-primary {
+            align-self: flex-start;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            padding: 2rem 5vw;
+            font-size: 0.85rem;
+        }
+        footer span { color: var(--sage-light); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+            .hero-visual { display: none; }
+            .how-grid, .faq-layout, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <nav>
+
+    <nav id="navbar">
+        <div class="nav-logo">Tru<span>Medicines</span></div>
         <ul>
             <li><a href="#hero">Home</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact" class="nav-cta">Contact</a></li>
         </ul>
     </nav>
-    <header id="hero">
-        <h1>Welcome to TruMedicines</h1>
-        <p>Your trusted partner for health and wellness.</p>
-        <a href="#features" class="cta">Learn More</a>
-    </header>
-    <section id="features">
-        <h2>Features</h2>
-        <ul>
-            <li>Feature 1: Personalized treatment plans</li>
-            <li>Feature 2: 24/7 support</li>
-            <li>Feature 3: Access to the latest research
-            <li>Feature 4: Easy-to-use interface</li>
-        </ul>
-    </section>
-    <section id="how-it-works">
-        <h2>How It Works</h2>
-        <p>Our simple process makes it easy for you to get started:</p>
-        <ol>
-            <li>Sign up for an account</li>
-            <li>Complete your health questionnaire</li>
-            <li>Receive your personalized plan</li>
-        </ol>
-    </section>
-    <section id="testimonials">
-        <h2>What Our Users Say</h2>
-        <blockquote>
-            <p>This service changed my life for the better!</p>
-            <cite>- Happy Customer</cite>
-        </blockquote>
-    </section>
-    <section id="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="accordion">
-            <button class="accordion-button">What is TruMedicines?</button>
-            <div class="accordion-content">
-                <p>TruMedicines is a health service providing personalized treatment plans.</p>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="hero-eyebrow">Your Trusted Health Partner</span>
+            <h1>Better Health<br>Starts with <em>Better Care</em></h1>
+            <p class="hero-sub">Personalized treatment plans, around-the-clock support, and access to the latest medical research — all in one place.</p>
+            <div class="hero-actions">
+                <a href="#features" class="btn-primary">Explore Features</a>
+                <a href="#how-it-works" class="btn-secondary">How It Works</a>
             </div>
-            <button class="accordion-button">How secure is my data?</button>
-            <div class="accordion-content">
-                <p>Your data is securely stored and encrypted.</p>
-            </div>
-            <button class="accordion-button">Can I contact support?</button>
-            <div class="accordion-content">
-                <p>Yes, our support team is available 24/7.</p>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="card-icon">🩺</div>
+                <h3>Your Health Dashboard</h3>
+                <p>Real-time insights and personalized recommendations tailored just for you.</p>
+                <div class="stat-row">
+                    <div class="stat">
+                        <span class="stat-num">12k+</span>
+                        <span class="stat-label">Patients</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">98%</span>
+                        <span class="stat-label">Satisfaction</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <form action="#" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="features-header reveal">
+            <span class="section-tag">Why Choose Us</span>
+            <h2 class="section-title">Everything You Need,<br>In One Platform</h2>
+            <p class="section-sub">We combine cutting-edge technology with compassionate care to deliver a truly modern health experience.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">📋</div>
+                <h3>Personalized Plans</h3>
+                <p>Treatment plans tailored to your unique health profile, goals, and medical history — not one-size-fits-all templates.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🕐</div>
+                <h3>24/7 Support</h3>
+                <p>Our team of health professionals is available around the clock to answer your questions and address concerns.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔬</div>
+                <h3>Latest Research</h3>
+                <p>Stay informed with continuously updated insights drawn from peer-reviewed medical journals and clinical trials.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">✨</div>
+                <h3>Simple Interface</h3>
+                <p>An intuitive, beautifully designed platform that makes managing your health straightforward and stress-free.</p>
+            </div>
+        </div>
     </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works">
+        <div class="how-grid">
+            <div class="reveal">
+                <span class="section-tag">Getting Started</span>
+                <h2 class="section-title">Up and Running in Three Steps</h2>
+                <p class="section-sub">We've designed the onboarding process to be as simple as possible so you can focus on what matters — your health.</p>
+                <div class="steps" style="margin-top:2.5rem">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h4>Create Your Account</h4>
+                            <p>Sign up in under two minutes with just your email. No lengthy forms, no credit card required to get started.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h4>Complete Your Health Profile</h4>
+                            <p>Answer a few guided questions about your health history and goals. Our system uses this to build your baseline.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h4>Receive Your Personalized Plan</h4>
+                            <p>Get your tailored recommendations immediately, with ongoing updates as your health journey evolves.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="how-visual reveal">
+                <p style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1.5rem;font-weight:700;">Your Health Progress</p>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Plan Completion</span><span>87%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:87%"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Medication Adherence</span><span>94%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Wellness Score</span><span>78%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Goals Achieved</span><span>62%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:62%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+        <div class="reveal">
+            <span class="section-tag">Testimonials</span>
+            <h2 class="section-title">Real Stories, Real Results</h2>
+            <p class="section-sub">Thousands of patients have transformed their health with TruMedicines. Here's what they say.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"This service changed my life for the better. My personalized plan was exactly what I needed and the support team is incredible."</blockquote>
+                <cite>— Sarah M., Verified Patient</cite>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"Finally a health platform that actually listens. My treatment plan was adjusted three times as I progressed — that responsiveness is rare."</blockquote>
+                <cite>— James R., Verified Patient</cite>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <blockquote>"The 24/7 support is real. I had a question at 2am and got a clear, professional answer within minutes. Absolutely invaluable."</blockquote>
+                <cite>— Priya K., Verified Patient</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="faq-layout">
+            <div class="reveal">
+                <span class="section-tag">FAQ</span>
+                <h2 class="section-title">Questions We Hear Often</h2>
+                <p class="section-sub">Can't find what you're looking for? Reach out to our support team — we're happy to help.</p>
+                <a href="#contact" class="btn-primary" style="margin-top:2rem;display:inline-block">Contact Support</a>
+            </div>
+            <div class="faq-items reveal">
+                <div class="faq-item">
+                    <button class="faq-btn">
+                        What is TruMedicines?
+                        <span class="icon">+</span>
+                    </button>
+                    <div class="faq-body">
+                        <p>TruMedicines is a digital health platform providing personalized treatment plans, medication management, and 24/7 professional support — all accessible from any device.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-btn">
+                        How secure is my data?
+                        <span class="icon">+</span>
+                    </button>
+                    <div class="faq-body">
+                        <p>Your data is protected with AES-256 encryption at rest and in transit. We are fully HIPAA compliant and never share your information with third parties without your explicit consent.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-btn">
+                        Can I contact support anytime?
+                        <span class="icon">+</span>
+                    </button>
+                    <div class="faq-body">
+                        <p>Yes — our support team is available 24 hours a day, 7 days a week via live chat, email, and phone. Average response time is under 5 minutes.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-btn">
+                        Is there a free trial available?
+                        <span class="icon">+</span>
+                    </button>
+                    <div class="faq-body">
+                        <p>Absolutely. You can explore TruMedicines free for 14 days — no credit card required. Start your trial today and experience personalized care firsthand.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="contact-layout">
+            <div class="reveal">
+                <span class="section-tag">Get in Touch</span>
+                <h2 class="section-title">We'd Love to Hear From You</h2>
+                <p class="section-sub">Whether you have a question, feedback, or just want to say hello — our team is here for you.</p>
+                <div class="contact-info" style="margin-top:2rem">
+                    <div class="contact-chip">
+                        <div class="contact-chip-icon">📧</div>
+                        <div class="contact-chip-text">
+                            <strong>Email</strong>
+                            <span>hello@trumedicines.com</span>
+                        </div>
+                    </div>
+                    <div class="contact-chip">
+                        <div class="contact-chip-icon">📞</div>
+                        <div class="contact-chip-text">
+                            <strong>Phone</strong>
+                            <span>1-800-TRU-MEDS</span>
+                        </div>
+                    </div>
+                    <div class="contact-chip">
+                        <div class="contact-chip-icon">🕐</div>
+                        <div class="contact-chip-text">
+                            <strong>Support Hours</strong>
+                            <span>24/7, every day of the year</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form action="#" method="post" class="reveal">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="How can we help?">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us more..." required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Message →</button>
+            </form>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2026 TruMedicines. All rights reserved.</p>
+        <p>&copy; 2026 <span>TruMedicines</span>. All rights reserved. Built with care for your health.</p>
     </footer>
-    <script src="scripts.js"></script>
+
+    <script>
+        // Nav scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const body = btn.nextElementSibling;
+                const isOpen = body.classList.contains('open');
+                document.querySelectorAll('.faq-body').forEach(b => b.classList.remove('open'));
+                document.querySelectorAll('.faq-btn').forEach(b => b.classList.remove('open'));
+                if (!isOpen) {
+                    body.classList.add('open');
+                    btn.classList.add('open');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
