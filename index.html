@@ -3,78 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruMedicines</title>
+    <title>TruMedicines - Your Trusted Health Partner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hero Section -->
-    <section id="hero" style="background-image: url('hero-bg.jpg');">
-        <div class="container">
-            <h1>Welcome to TruMedicines</h1>
-            <p>Your health is our priority. Discover the best natural remedies.</p>
-            <a href="#features" class="btn">Learn More</a>
-        </div>
-    </section>
-
-    <!-- Features Section -->
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <header id="hero">
+        <h1>Welcome to TruMedicines</h1>
+        <p>Your trusted partner for health and wellness.</p>
+        <a href="#features" class="cta">Learn More</a>
+    </header>
     <section id="features">
-        <div class="container">
-            <h2>Features</h2>
-            <div class="feature">
-                <h3>Natural Ingredients</h3>
-                <p>All our products are made from 100% natural ingredients.</p>
-            </div>
-            <div class="feature">
-                <h3>Quality Assurance</h3>
-                <p>We maintain strict quality control to ensure the best for our customers.</p>
-            </div>
-            <div class="feature">
-                <h3>Customer Support</h3>
-                <p>Our dedicated support team is here to assist you 24/7.</p>
-            </div>
-        </div>
+        <h2>Features</h2>
+        <ul>
+            <li>Feature 1: Personalized treatment plans</li>
+            <li>Feature 2: 24/7 support</li>
+            <li>Feature 3: Access to the latest research
+            <li>Feature 4: Easy-to-use interface</li>
+        </ul>
     </section>
-
-    <!-- Testimonials Section -->
+    <section id="how-it-works">
+        <h2>How It Works</h2>
+        <p>Our simple process makes it easy for you to get started:</p>
+        <ol>
+            <li>Sign up for an account</li>
+            <li>Complete your health questionnaire</li>
+            <li>Receive your personalized plan</li>
+        </ol>
+    </section>
     <section id="testimonials">
-        <div class="container">
-            <h2>What Our Customers Say</h2>
-            <blockquote>
-                <p>"TruMedicines has transformed my health!" - Jane Doe</p>
-            </blockquote>
-            <blockquote>
-                <p>"I love the natural remedies offered here!" - John Smith</p>
-            </blockquote>
-        </div>
+        <h2>What Our Users Say</h2>
+        <blockquote>
+            <p>This service changed my life for the better!</p>
+            <cite>- Happy Customer</cite>
+        </blockquote>
     </section>
-
-    <!-- FAQ Section -->
     <section id="faq">
-        <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-item">
-                <h3>What are the benefits of natural remedies?</h3>
-                <p>Natural remedies can help enhance your overall well-being without harmful side effects.</p>
+        <h2>Frequently Asked Questions</h2>
+        <div class="accordion">
+            <button class="accordion-button">What is TruMedicines?</button>
+            <div class="accordion-content">
+                <p>TruMedicines is a health service providing personalized treatment plans.</p>
             </div>
-            <div class="faq-item">
-                <h3>How do I place an order?</h3>
-                <p>You can place an order directly through our website.</p>
+            <button class="accordion-button">How secure is my data?</button>
+            <div class="accordion-content">
+                <p>Your data is securely stored and encrypted.</p>
+            </div>
+            <button class="accordion-button">Can I contact support?</button>
+            <div class="accordion-content">
+                <p>Yes, our support team is available 24/7.</p>
             </div>
         </div>
     </section>
-
-    <!-- Call to Action -->
-    <section id="cta">
-        <div class="container">
-            <h2>Ready to Improve Your Health?</h2>
-            <a href="#" class="btn">Shop Now</a>
-        </div>
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="#" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
     </section>
-
     <footer>
-        <div class="container">
-            <p>&copy; 2026 TruMedicines. All rights reserved.</p>
-        </div>
+        <p>&copy; 2026 TruMedicines. All rights reserved.</p>
     </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
