@@ -1,888 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruMedicines - Your Trusted Health Partner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --sage: #4a7c59;
-            --sage-light: #6fa882;
-            --sage-pale: #eaf2ec;
-            --cream: #faf8f4;
-            --charcoal: #1a1f1c;
-            --text-mid: #4a5450;
-            --white: #ffffff;
-            --accent: #c8a96e;
-            --accent-light: #f0e6d3;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--charcoal);
-            overflow-x: hidden;
-        }
-
-        /* ── NAV ── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 5vw;
-            background: rgba(250, 248, 244, 0.88);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(74,124,89,0.12);
-            transition: box-shadow 0.3s;
-        }
-        nav.scrolled { box-shadow: 0 4px 30px rgba(26,31,28,0.08); }
-
-        .nav-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--sage);
-            letter-spacing: -0.5px;
-        }
-        .nav-logo span { color: var(--accent); }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2.2rem;
-        }
-        nav ul a {
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--text-mid);
-            letter-spacing: 0.02em;
-            position: relative;
-            transition: color 0.2s;
-        }
-        nav ul a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px; left: 0;
-            width: 0; height: 2px;
-            background: var(--sage);
-            transition: width 0.25s;
-        }
-        nav ul a:hover { color: var(--sage); }
-        nav ul a:hover::after { width: 100%; }
-
-        .nav-cta {
-            background: var(--sage);
-            color: var(--white) !important;
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-        }
-        .nav-cta::after { display: none !important; }
-        .nav-cta:hover { background: var(--sage-light); color: var(--white) !important; }
-
-        /* ── HERO ── */
-        #hero {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            padding: 8rem 5vw 5rem;
-            gap: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 80% 70% at 70% 50%, var(--sage-pale) 0%, transparent 70%);
-            z-index: 0;
-        }
-        .hero-content { position: relative; z-index: 1; }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--sage);
-            background: var(--sage-pale);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeUp 0.6s 0.2s forwards;
-        }
-        .hero-eyebrow::before {
-            content: '✦';
-            color: var(--accent);
-        }
-
-        #hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.8rem, 5vw, 4.2rem);
-            font-weight: 900;
-            line-height: 1.08;
-            letter-spacing: -1.5px;
-            color: var(--charcoal);
-            opacity: 0;
-            animation: fadeUp 0.7s 0.35s forwards;
-        }
-        #hero h1 em {
-            font-style: normal;
-            color: var(--sage);
-        }
-
-        .hero-sub {
-            margin-top: 1.5rem;
-            font-size: 1.1rem;
-            color: var(--text-mid);
-            line-height: 1.7;
-            max-width: 480px;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.5s forwards;
-        }
-
-        .hero-actions {
-            margin-top: 2.5rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.65s forwards;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            background: var(--sage);
-            color: var(--white);
-            text-decoration: none;
-            padding: 0.85rem 2rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 6px 24px rgba(74,124,89,0.3);
-        }
-        .btn-primary:hover {
-            background: var(--sage-light);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 32px rgba(74,124,89,0.35);
-        }
-
-        .btn-secondary {
-            display: inline-block;
-            color: var(--sage);
-            text-decoration: none;
-            padding: 0.85rem 2rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border: 1.5px solid var(--sage);
-            transition: background 0.2s, transform 0.2s;
-        }
-        .btn-secondary:hover {
-            background: var(--sage-pale);
-            transform: translateY(-2px);
-        }
-
-        .hero-visual {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeIn 1s 0.5s forwards;
-        }
-
-        .hero-card {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 2.5rem;
-            width: 340px;
-            box-shadow: 0 20px 60px rgba(26,31,28,0.12);
-            position: relative;
-        }
-        .hero-card::before {
-            content: '';
-            position: absolute;
-            top: -20px; right: -20px;
-            width: 100px; height: 100px;
-            background: var(--accent-light);
-            border-radius: 50%;
-            z-index: -1;
-        }
-        .card-icon {
-            width: 56px; height: 56px;
-            background: var(--sage-pale);
-            border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
-        }
-        .hero-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-        .hero-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; }
-
-        .stat-row {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(74,124,89,0.12);
-        }
-        .stat { text-align: center; flex: 1; }
-        .stat-num {
-            display: block;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--sage);
-        }
-        .stat-label { font-size: 0.72rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.06em; }
-
-        /* ── SECTION SHARED ── */
-        section {
-            padding: 7rem 5vw;
-        }
-        .section-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.8rem;
-        }
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 3.5vw, 2.8rem);
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.5px;
-            color: var(--charcoal);
-            margin-bottom: 1.2rem;
-        }
-        .section-sub {
-            font-size: 1rem;
-            color: var(--text-mid);
-            max-width: 520px;
-            line-height: 1.7;
-            font-weight: 300;
-        }
-
-        /* ── FEATURES ── */
-        #features { background: var(--white); }
-        .features-header { margin-bottom: 4rem; }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--cream);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(74,124,89,0.1);
-            transition: transform 0.25s, box-shadow 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-        .feature-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--sage), var(--accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(74,124,89,0.12); }
-        .feature-card:hover::after { transform: scaleX(1); }
-
-        .feature-icon {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-        .feature-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.6rem;
-        }
-        .feature-card p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.65; }
-
-        /* ── HOW IT WORKS ── */
-        #how-it-works { background: var(--sage-pale); }
-        .how-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            margin-top: 3rem;
-        }
-        .steps { display: flex; flex-direction: column; gap: 2rem; }
-        .step {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-        .step-num {
-            flex-shrink: 0;
-            width: 48px; height: 48px;
-            background: var(--sage);
-            color: var(--white);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-        .step-content h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.4rem;
-        }
-        .step-content p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; }
-
-        .how-visual {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 3rem;
-            box-shadow: 0 12px 40px rgba(26,31,28,0.08);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .progress-item { display: flex; flex-direction: column; gap: 0.4rem; }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .progress-bar {
-            height: 8px;
-            background: var(--sage-pale);
-            border-radius: 50px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--sage), var(--sage-light));
-            border-radius: 50px;
-            animation: grow 1.5s ease-out forwards;
-        }
-
-        @keyframes grow { from { width: 0; } }
-
-        /* ── TESTIMONIALS ── */
-        #testimonials { background: var(--charcoal); color: var(--white); }
-        #testimonials .section-title { color: var(--white); }
-        #testimonials .section-sub { color: rgba(255,255,255,0.55); }
-        #testimonials .section-tag { color: var(--accent); }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3.5rem;
-        }
-        .testimonial-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: background 0.25s;
-        }
-        .testimonial-card:hover { background: rgba(255,255,255,0.08); }
-
-        .stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
-
-        .testimonial-card blockquote {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-        .testimonial-card cite {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.45);
-            font-style: normal;
-            font-weight: 500;
-        }
-
-        /* ── FAQ ── */
-        #faq { background: var(--white); }
-        .faq-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 5rem;
-            margin-top: 1rem;
-            align-items: start;
-        }
-        .faq-items { display: flex; flex-direction: column; gap: 1rem; }
-
-        .faq-item {
-            border: 1px solid rgba(74,124,89,0.15);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .faq-btn {
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 1.2rem 1.5rem;
-            text-align: left;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--charcoal);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-        .faq-btn:hover { background: var(--sage-pale); }
-        .faq-btn .icon {
-            width: 24px; height: 24px;
-            background: var(--sage-pale);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-            color: var(--sage);
-            flex-shrink: 0;
-            transition: transform 0.3s, background 0.2s;
-        }
-        .faq-btn.open .icon { transform: rotate(45deg); background: var(--sage); color: var(--white); }
-
-        .faq-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease, padding 0.2s;
-        }
-        .faq-body.open { max-height: 200px; }
-        .faq-body p {
-            padding: 0 1.5rem 1.2rem;
-            font-size: 0.9rem;
-            color: var(--text-mid);
-            line-height: 1.7;
-        }
-
-        /* ── CONTACT ── */
-        #contact { background: var(--cream); }
-        .contact-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: 5rem;
-            align-items: start;
-            margin-top: 1rem;
-        }
-        .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
-        .contact-chip {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .contact-chip-icon {
-            width: 44px; height: 44px;
-            background: var(--sage-pale);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-        }
-        .contact-chip-text strong { display: block; font-size: 0.85rem; }
-        .contact-chip-text span { font-size: 0.82rem; color: var(--text-mid); }
-
-        form { display: flex; flex-direction: column; gap: 1.2rem; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-
-        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-        label { font-size: 0.82rem; font-weight: 500; color: var(--charcoal); letter-spacing: 0.02em; }
-
-        input, textarea {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.92rem;
-            padding: 0.8rem 1.1rem;
-            border: 1.5px solid rgba(74,124,89,0.2);
-            border-radius: 12px;
-            background: var(--white);
-            color: var(--charcoal);
-            transition: border-color 0.2s, box-shadow 0.2s;
-            outline: none;
-        }
-        input:focus, textarea:focus {
-            border-color: var(--sage);
-            box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
-        }
-        textarea { resize: vertical; min-height: 130px; }
-
-        form .btn-primary {
-            align-self: flex-start;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            background: var(--charcoal);
-            color: rgba(255,255,255,0.4);
-            text-align: center;
-            padding: 2rem 5vw;
-            font-size: 0.85rem;
-        }
-        footer span { color: var(--sage-light); }
-
-        /* ── ANIMATIONS ── */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: none;
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            #hero { grid-template-columns: 1fr; padding-top: 6rem; }
-            .hero-visual { display: none; }
-            .how-grid, .faq-layout, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-            .form-row { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruMedicines — TelePacks Ai Managed Medication Dispenser</title>
+<meta name="description" content="TelePacks by TruMedicines is an FDA-funded Ai smart medication dispenser that talks patients through every dose, connects them to doctors and staff by one-touch video, and offers a 24/7 Ai avatar for support in between.">
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-    <nav id="navbar">
-        <div class="nav-logo">Tru<span>Medicines</span></div>
-        <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#contact" class="nav-cta">Contact</a></li>
-        </ul>
+<header class="site">
+  <div class="nav">
+    <a href="#top" class="brand">
+      <img src="assets/img/logo.jpg" alt="TruMedicines logo">
+      <span class="brand-fda">FDA funded</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#problem">The Problem</a>
+      <a href="#product">TelePacks</a>
+      <a href="#how">How it works</a>
+      <a href="#partners">Packaging</a>
+      <a href="#care">Remote Care</a>
+      <a href="#credibility">Credentials</a>
     </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="https://youtu.be/x_ILlnA4jpE" target="_blank" rel="noopener">Watch demo</a>
+      <a class="btn btn-primary" href="mailto:David@TruMedicines.com">Contact us</a>
+    </div>
+  </div>
+</header>
 
-    <!-- HERO -->
-    <section id="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <span class="hero-eyebrow">Your Trusted Health Partner</span>
-            <h1>Better Health<br>Starts with <em>Better Care</em></h1>
-            <p class="hero-sub">Personalized treatment plans, around-the-clock support, and access to the latest medical research — all in one place.</p>
-            <div class="hero-actions">
-                <a href="#features" class="btn-primary">Explore Features</a>
-                <a href="#how-it-works" class="btn-secondary">How It Works</a>
-            </div>
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Ai Smart Medication Dispenser</span>
+        <h1>The dispenser that <em>talks</em>, <em>listens</em>, and connects patients to real people.</h1>
+        <p class="lede">TelePacks is an Ai-powered in-home device that speaks each dose aloud, answers patients by voice, and puts a doctor, nurse, or care team one touch away by video — with an Ai avatar on call 24/7 for everything in between.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="mailto:David@TruMedicines.com">Request a pilot</a>
+          <a class="btn btn-ghost" href="https://youtu.be/x_ILlnA4jpE" target="_blank" rel="noopener">Watch the device</a>
         </div>
-        <div class="hero-visual">
-            <div class="hero-card">
-                <div class="card-icon">🩺</div>
-                <h3>Your Health Dashboard</h3>
-                <p>Real-time insights and personalized recommendations tailored just for you.</p>
-                <div class="stat-row">
-                    <div class="stat">
-                        <span class="stat-num">12k+</span>
-                        <span class="stat-label">Patients</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-num">98%</span>
-                        <span class="stat-label">Satisfaction</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-num">24/7</span>
-                        <span class="stat-label">Support</span>
-                    </div>
-                </div>
-            </div>
+        <div class="hero-stats">
+          <div><span class="num">24/7</span><span class="cap">Ai avatar support, day and night</span></div>
+          <div><span class="num">1-touch</span><span class="cap">Video call to doctors &amp; staff</span></div>
+          <div><span class="num">Ai</span><span class="cap">Voice &amp; image dose recognition</span></div>
         </div>
-    </section>
+      </div>
 
-    <!-- FEATURES -->
-    <section id="features">
-        <div class="features-header reveal">
-            <span class="section-tag">Why Choose Us</span>
-            <h2 class="section-title">Everything You Need,<br>In One Platform</h2>
-            <p class="section-sub">We combine cutting-edge technology with compassionate care to deliver a truly modern health experience.</p>
+      <div class="hero-visual">
+        <div class="hero-photo device-photo">
+          <img src="assets/img/device-silver.png" alt="The TelePacks Ai smart medication dispenser, a countertop device with a built-in touchscreen and printer">
         </div>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon">📋</div>
-                <h3>Personalized Plans</h3>
-                <p>Treatment plans tailored to your unique health profile, goals, and medical history — not one-size-fits-all templates.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">🕐</div>
-                <h3>24/7 Support</h3>
-                <p>Our team of health professionals is available around the clock to answer your questions and address concerns.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">🔬</div>
-                <h3>Latest Research</h3>
-                <p>Stay informed with continuously updated insights drawn from peer-reviewed medical journals and clinical trials.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">✨</div>
-                <h3>Simple Interface</h3>
-                <p>An intuitive, beautifully designed platform that makes managing your health straightforward and stress-free.</p>
-            </div>
+
+        <div class="hero-badge" data-reveal>
+          <svg class="senior-avatar" viewBox="0 0 120 120" role="img" aria-label="Ai avatar icon">
+            <circle cx="60" cy="60" r="60" fill="var(--blue-deep)"/>
+            <circle cx="60" cy="60" r="34" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>
+            <circle cx="60" cy="60" r="20" fill="#fff"/>
+            <circle cx="60" cy="60" r="8" fill="var(--blue-deep)"/>
+          </svg>
+          <div>
+            <strong>Ai avatar on call</strong>
+            <span>24/7 · Live support</span>
+          </div>
         </div>
-    </section>
 
-    <!-- HOW IT WORKS -->
-    <section id="how-it-works">
-        <div class="how-grid">
-            <div class="reveal">
-                <span class="section-tag">Getting Started</span>
-                <h2 class="section-title">Up and Running in Three Steps</h2>
-                <p class="section-sub">We've designed the onboarding process to be as simple as possible so you can focus on what matters — your health.</p>
-                <div class="steps" style="margin-top:2.5rem">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <div class="step-content">
-                            <h4>Create Your Account</h4>
-                            <p>Sign up in under two minutes with just your email. No lengthy forms, no credit card required to get started.</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div class="step-content">
-                            <h4>Complete Your Health Profile</h4>
-                            <p>Answer a few guided questions about your health history and goals. Our system uses this to build your baseline.</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div class="step-content">
-                            <h4>Receive Your Personalized Plan</h4>
-                            <p>Get your tailored recommendations immediately, with ongoing updates as your health journey evolves.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="how-visual reveal">
-                <p style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1.5rem;font-weight:700;">Your Health Progress</p>
-                <div class="progress-item">
-                    <div class="progress-label"><span>Plan Completion</span><span>87%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:87%"></div></div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-label"><span>Medication Adherence</span><span>94%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-label"><span>Wellness Score</span><span>78%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-label"><span>Goals Achieved</span><span>62%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:62%"></div></div>
-                </div>
-            </div>
+        <div class="call-chip floating-packet" aria-label="Example of a one-touch video call in progress">
+          <div class="call-chip-top">
+            <span class="call-dot" aria-hidden="true"></span>
+            <span>Video call · Nurse Amy</span>
+          </div>
+          <div class="call-chip-time">00:04:12</div>
+          <div class="call-chip-sub">Connected in one touch — no app, no login</div>
         </div>
-    </section>
+      </div>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials">
-        <div class="reveal">
-            <span class="section-tag">Testimonials</span>
-            <h2 class="section-title">Real Stories, Real Results</h2>
-            <p class="section-sub">Thousands of patients have transformed their health with TruMedicines. Here's what they say.</p>
+    </div>
+  </section>
+
+  <!-- ============ TOP BENEFITS ============ -->
+  <section class="benefits">
+    <div class="wrap">
+      <div class="benefits-grid" data-reveal>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M12 15a8 8 0 0 1 16 0v6a8 8 0 0 1-16 0z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 20a12 12 0 0 0 24 0" fill="none" stroke="currentColor" stroke-width="2"/><line x1="20" y1="32" x2="20" y2="36" stroke="currentColor" stroke-width="2"/></svg>
+          </span>
+          <h4>Talks &amp; listens to patients</h4>
+          <p>Speaks each dose aloud and understands spoken questions back — Alexa-like, built for medication.</p>
         </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card reveal">
-                <div class="stars">★★★★★</div>
-                <blockquote>"This service changed my life for the better. My personalized plan was exactly what I needed and the support team is incredible."</blockquote>
-                <cite>— Sarah M., Verified Patient</cite>
-            </div>
-            <div class="testimonial-card reveal">
-                <div class="stars">★★★★★</div>
-                <blockquote>"Finally a health platform that actually listens. My treatment plan was adjusted three times as I progressed — that responsiveness is rare."</blockquote>
-                <cite>— James R., Verified Patient</cite>
-            </div>
-            <div class="testimonial-card reveal">
-                <div class="stars">★★★★★</div>
-                <blockquote>"The 24/7 support is real. I had a question at 2am and got a clear, professional answer within minutes. Absolutely invaluable."</blockquote>
-                <cite>— Priya K., Verified Patient</cite>
-            </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><rect x="6" y="10" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M26 17l8-5v16l-8-5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </span>
+          <h4>One-touch video to care staff</h4>
+          <p>A single button reaches a doctor, nurse, or care team member — no app, login, or tech skill required.</p>
         </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq">
-        <div class="faq-layout">
-            <div class="reveal">
-                <span class="section-tag">FAQ</span>
-                <h2 class="section-title">Questions We Hear Often</h2>
-                <p class="section-sub">Can't find what you're looking for? Reach out to our support team — we're happy to help.</p>
-                <a href="#contact" class="btn-primary" style="margin-top:2rem;display:inline-block">Contact Support</a>
-            </div>
-            <div class="faq-items reveal">
-                <div class="faq-item">
-                    <button class="faq-btn">
-                        What is TruMedicines?
-                        <span class="icon">+</span>
-                    </button>
-                    <div class="faq-body">
-                        <p>TruMedicines is a digital health platform providing personalized treatment plans, medication management, and 24/7 professional support — all accessible from any device.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-btn">
-                        How secure is my data?
-                        <span class="icon">+</span>
-                    </button>
-                    <div class="faq-body">
-                        <p>Your data is protected with AES-256 encryption at rest and in transit. We are fully HIPAA compliant and never share your information with third parties without your explicit consent.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-btn">
-                        Can I contact support anytime?
-                        <span class="icon">+</span>
-                    </button>
-                    <div class="faq-body">
-                        <p>Yes — our support team is available 24 hours a day, 7 days a week via live chat, email, and phone. Average response time is under 5 minutes.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-btn">
-                        Is there a free trial available?
-                        <span class="icon">+</span>
-                    </button>
-                    <div class="faq-body">
-                        <p>Absolutely. You can explore TruMedicines free for 14 days — no credit card required. Start your trial today and experience personalized care firsthand.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="20" r="5" fill="currentColor"/></svg>
+          </span>
+          <h4>Ai avatar, on call 24/7</h4>
+          <p>A conversational assistant offers answers and emotional support around the clock, in the patient's language.</p>
         </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-        <div class="contact-layout">
-            <div class="reveal">
-                <span class="section-tag">Get in Touch</span>
-                <h2 class="section-title">We'd Love to Hear From You</h2>
-                <p class="section-sub">Whether you have a question, feedback, or just want to say hello — our team is here for you.</p>
-                <div class="contact-info" style="margin-top:2rem">
-                    <div class="contact-chip">
-                        <div class="contact-chip-icon">📧</div>
-                        <div class="contact-chip-text">
-                            <strong>Email</strong>
-                            <span>hello@trumedicines.com</span>
-                        </div>
-                    </div>
-                    <div class="contact-chip">
-                        <div class="contact-chip-icon">📞</div>
-                        <div class="contact-chip-text">
-                            <strong>Phone</strong>
-                            <span>1-800-TRU-MEDS</span>
-                        </div>
-                    </div>
-                    <div class="contact-chip">
-                        <div class="contact-chip-icon">🕐</div>
-                        <div class="contact-chip-text">
-                            <strong>Support Hours</strong>
-                            <span>24/7, every day of the year</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <form action="#" method="post" class="reveal">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" placeholder="Jane Smith" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="jane@email.com" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="How can we help?">
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Tell us more..." required></textarea>
-                </div>
-                <button type="submit" class="btn-primary">Send Message →</button>
-            </form>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><path d="M6 30l7-12 7 8 6-10 8 14z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </span>
+          <h4>Real-time staff monitoring</h4>
+          <p>Every conversation and dose event flows to a web dashboard watching thousands of devices at once.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>&copy; 2026 <span>TruMedicines</span>. All rights reserved. Built with care for your health.</p>
-    </footer>
+  <!-- ============ PROBLEM ============ -->
+  <section class="problem" id="problem">
+    <div class="wrap section" style="padding-bottom:0;">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Why it matters</span>
+        <h2>Medication management and emotional support have been neglected for decades.</h2>
+        <p>Patients left to self-manage complex regimens routinely under-dose or over-dose — and emotional therapy is rarely part of the plan at all.</p>
+      </div>
+    </div>
+    <div class="problem-grid" data-reveal>
+      <div class="problem-card">
+        <span class="big">33%</span>
+        <p>of US patients have no regular doctor and manage their own medication schedules unsupervised.</p>
+      </div>
+      <div class="problem-card">
+        <span class="big">2×</span>
+        <p>the risk of adverse events when dosing is self-tracked without image or speech verification.</p>
+      </div>
+      <div class="problem-card">
+        <span class="big">0</span>
+        <p>emotional or behavioral support built into most medication adherence tools on the market today.</p>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Nav scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 20);
-        });
+  <!-- ============ PRODUCT ============ -->
+  <section class="product" id="product">
+    <div class="wrap section">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">The Device</span>
+        <h2>TelePacks Ai Managed Medication Dispenser</h2>
+        <p>Award-winning and patented, TelePacks is an Ai smart dispenser — it speaks, listens, sees, and calls out for help. It reads pre-packaged medication or vitamins from Amazon PillPack, CVS, Walmart, Walgreens, Nurish, and Persona, but the product is the device itself: the voice, the screen, and the one-touch line to real care.</p>
+      </div>
+      <div class="product-grid">
+        <div class="device-frame" data-reveal>
+          <img src="assets/img/device-silver.png" alt="The TelePacks Ai smart medication dispenser with built-in touchscreen, printer, and camera">
+        </div>
+        <ul class="feature-list" data-reveal>
+          <li>
+            <span class="feature-tag">Recognition</span>
+            <div>
+              <h4>Ai image &amp; speech recognition</h4>
+              <p>Reads each pre-packaged dose as it's dispensed and responds to spoken questions, so patients always know exactly what they're taking.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-tag">One-touch</span>
+            <div>
+              <h4>One-Touch Video calling</h4>
+              <p>A single button starts a Zoom-like video call — remote care and medication monitoring at the lowest possible cost per visit, for people with no technical skill required.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-tag">Avatar</span>
+            <div>
+              <h4>Conversational Avatar Assistant</h4>
+              <p>A multi-language, interactive Ai answers questions on demand. Staff can create personalized messages that offer encouragement and emotional support for patients in remote locations, low-resource settings, addiction treatment, or elder care.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-tag">Learning</span>
+            <div>
+              <h4>A network that learns treatment success</h4>
+              <p>Across text, audio, visual content, frequency, and duration, the Ai network learns over time the highest treatment success rate plan for medication and emotional therapy — all data encrypted and HIPAA compliant.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-        // Scroll reveal
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((e, i) => {
-                if (e.isIntersecting) {
-                    setTimeout(() => e.target.classList.add('visible'), i * 80);
-                    observer.unobserve(e.target);
-                }
-            });
-        }, { threshold: 0.12 });
-        reveals.forEach(el => observer.observe(el));
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="wrap section">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow" style="color:#7FCBFF">The workflow</span>
+        <h2>From pharmacy to patient, in four steps</h2>
+        <p>The same pipeline runs for every packet, every dose, every day.</p>
+      </div>
+    </div>
+    <div class="how-grid" data-reveal>
+      <div class="how-card">
+        <span class="step">01 · Order</span>
+        <h4>Pre-packaged doses arrive</h4>
+        <p>Pharmacy partners like PillPack, CVS, Walmart, or Walgreens ship pre-sorted medication or vitamin packets straight to the patient.</p>
+      </div>
+      <div class="how-card">
+        <span class="step">02 · Load</span>
+        <h4>TelePacks reads the packet</h4>
+        <p>Ai image recognition identifies the contents and timing printed on each packet before it's dispensed.</p>
+      </div>
+      <div class="how-card">
+        <span class="step">03 · Guide</span>
+        <h4>Voice &amp; Avatar guidance</h4>
+        <p>The device speaks the dose aloud, answers questions, and delivers staff-authored emotional support messages.</p>
+      </div>
+      <div class="how-card">
+        <span class="step">04 · Monitor</span>
+        <h4>Staff watch in real time</h4>
+        <p>Every event flows to the Staff Web Portal, monitoring thousands of Telepack units and flagging patients who need outreach.</p>
+      </div>
+    </div>
+  </section>
 
-        // FAQ accordion
-        document.querySelectorAll('.faq-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const body = btn.nextElementSibling;
-                const isOpen = body.classList.contains('open');
-                document.querySelectorAll('.faq-body').forEach(b => b.classList.remove('open'));
-                document.querySelectorAll('.faq-btn').forEach(b => b.classList.remove('open'));
-                if (!isOpen) {
-                    body.classList.add('open');
-                    btn.classList.add('open');
-                }
-            });
-        });
-    </script>
+  <!-- ============ PACKAGING PARTNERS ============ -->
+  <section class="partners" id="partners">
+    <div class="wrap section">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Packaging partners</span>
+        <h2>Works with the multi-dose packets you already get mailed</h2>
+        <p>TelePacks reads pre-sorted packets from the major multi-dose dispensing (MDD) pharmacy services — no new packaging to adopt, no change for the patient.</p>
+      </div>
+      <div class="partner-grid" data-reveal>
+        <div class="partner-card">
+          <div class="partner-mark walgreens">Walgreens</div>
+          <p class="partner-product">DailyMed</p>
+          <p class="partner-cost">$7.99<span>/month</span></p>
+          <p>Multi-dose packets mailed to the patient's home once a month.</p>
+        </div>
+        <div class="partner-card">
+          <div class="partner-mark cvs">CVS/pharmacy</div>
+          <p class="partner-product">CVS Multi-Dose Packaging</p>
+          <p class="partner-cost">Free</p>
+          <p>Strip-packaged doses patients can enroll in directly through CVS.</p>
+        </div>
+        <div class="partner-card">
+          <div class="partner-mark pillpack">
+            <span class="pillpack-icon" aria-hidden="true"></span>PillPack
+          </div>
+          <p class="partner-product">Amazon PillPack</p>
+          <p class="partner-cost">Free</p>
+          <p>Pre-sorted packets shipped every two weeks, available in 47 states.</p>
+        </div>
+      </div>
+      <p class="partner-note">Comparison based on published multi-dose dispensing (MDD) pharmacy program data. TelePacks also reads packets from Walmart, Nurish, and Persona.</p>
+    </div>
+  </section>
+
+  <!-- ============ TELEHEALTH / CARE ============ -->
+  <section class="telehealth" id="care">
+    <div class="wrap section">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Remote care team</span>
+        <h2>One button connects a patient to a real clinician</h2>
+        <p>No app to install, no login to remember. Patients press one button on the device and reach a doctor, a nurse, or the Ai avatar assistant for day-to-day support.</p>
+      </div>
+      <div class="care-grid">
+        <div class="care-card" data-reveal>
+          <div class="care-photo">
+            <img src="assets/img/dr.jpg" alt="Physician available for one-touch video calls through TelePacks">
+            <span class="badge">Video call · Dr. Patel</span>
+          </div>
+          <div class="care-body">
+            <h4>On-demand physician visits</h4>
+            <p>Route patients to a physician for medication questions or changes to their care plan, billed under standard remote monitoring CPT codes.</p>
+          </div>
+        </div>
+        <div class="care-card" data-reveal>
+          <div class="care-photo">
+            <img src="assets/img/nurse.jpg" alt="Nurse available for one-touch video calls through TelePacks">
+            <span class="badge">Video call · Nurse Amy</span>
+          </div>
+          <div class="care-body">
+            <h4>Nurse &amp; care-team check-ins</h4>
+            <p>Nurses, social workers, and therapists can check in on adherence and wellbeing without scheduling a full clinic visit.</p>
+          </div>
+        </div>
+        <div class="care-card" data-reveal>
+          <div class="care-photo">
+            <img src="assets/img/avatar.jpg" alt="Ai avatar assistant offering mental health and adherence support">
+            <span class="badge">Ai Avatar · Live support</span>
+          </div>
+          <div class="care-body">
+            <h4>Ai avatar &amp; emotional support</h4>
+            <p>Between visits, a conversational Ai avatar offers encouragement and answers routine questions in the patient's own language.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CREDIBILITY ============ -->
+  <section class="credibility" id="credibility">
+    <div class="wrap section">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Backed &amp; verified</span>
+        <h2>FDA-funded, patented, and built to bill</h2>
+      </div>
+      <div class="cred-grid">
+        <ul class="cred-list" data-reveal>
+          <li><strong>Grant</strong><span>HHS-FDA grant #IR43FD006302, funding a UW Global Health pill-tracking mobile app to log self-reported health measures and drug adherence.</span></li>
+          <li><strong>Regulatory class</strong><span>FDA Class I exempt, 21 CFR §890.5050-NXB 2799 — GMP exempt as a daily activity assist device.</span></li>
+          <li><strong>Patents</strong><span>US Patents 8,888,005 · 9,152,913 · 9,477,810, and CA Patent 2,858,923 covering marked pharmaceutical tablets.</span></li>
+          <li><strong>Published study</strong><span>“Pill Identification using a Mobile Phone App for Assessing Medication Adherence and Post-Market Drug Surveillance,” arXiv abs/2004.11479 (2020). <a class="inline-link" href="https://arxiv.org/abs/2004.11479" target="_blank" rel="noopener">Read the paper →</a></span></li>
+          <li><strong>Manuscript status</strong><span>Companion manuscript submitted for publication and on file with the NIH National Library of Medicine (NIHMS ID 2143888), currently awaiting final citation data.</span></li>
+          <li><strong>Compliance</strong><span>All patient data is securely encrypted and HIPAA compliant across the device, portal, and mobile app.</span></li>
+        </ul>
+        <div class="cpt-box" data-reveal>
+          <h4>Billable under existing Medicare &amp; insurance codes</h4>
+          <div class="cpt-codes">
+            <span>99453</span><span>99454</span><span>99457</span><span>99458</span>
+            <span>99473</span><span>99474</span><span>99607</span><span>99490</span>
+          </div>
+          <p>CMS pays for medication adherence monitoring performed by doctors, nurses, social workers, occupational and physical therapists, physician assistants, psychologists, dietitians, public health agencies, labs, diagnostic testing centers, and charitable agencies.</p>
+          <a class="inline-link" href="https://arxiv.org/abs/2004.11479" target="_blank" rel="noopener">Read the published study →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center">Let's talk</span>
+      <h2>Bring TelePacks to your patients.</h2>
+      <p>Whether you're a health system, payer, pharmacy, or research partner — we'll walk you through a pilot and the reimbursement path.</p>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" href="mailto:David@TruMedicines.com">Email David@TruMedicines.com</a>
+        <a class="btn btn-ghost" href="https://telepack.webflow.io/" target="_blank" rel="noopener">View product site</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/img/logo.jpg" alt="TruMedicines logo">
+        <p>TruMedicines, based in Seattle, WA, builds Ai-managed medication and telehealth devices that keep low-resource, remote, and elderly patients on their treatment plan.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#product">TelePacks device</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="https://youtu.be/x_ILlnA4jpE" target="_blank" rel="noopener">Video demo</a></li>
+          <li><a href="https://telepack.webflow.io/" target="_blank" rel="noopener">Product site</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#credibility">FDA &amp; patents</a></li>
+          <li><a href="mailto:David@TruMedicines.com">Contact</a></li>
+          <li><a href="https://reporter.nih.gov/search/8IpeW9kvEkm7Tu5jDiu1RA/project-details/9555230" target="_blank" rel="noopener">NIH grant record</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> TruMedicines. FDA funded.</span>
+      <span>Seattle, WA</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
 </body>
 </html>
