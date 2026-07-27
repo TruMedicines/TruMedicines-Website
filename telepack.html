@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TruMedicines — TelePack</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --sage:#4a7c59; --accent:#c8a96e; --cream:#faf8f4; --charcoal:#1a1f1c; --muted:#6b726f;
+    }
+    *{box-sizing:border-box}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);margin:0}
+    header{background:#fff;border-bottom:1px solid rgba(0,0,0,0.04);padding:18px 6vw;position:sticky;top:0;z-index:20}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-family:'Playfair Display',serif;color:var(--sage);font-weight:700;font-size:1.15rem}
+    .logo span{color:var(--accent)}
+    nav ul{display:flex;gap:18px;list-style:none;padding:0;margin:0}
+    nav a{color:var(--muted);text-decoration:none;font-weight:500}
+
+    main{max-width:1100px;margin:36px auto;padding:0 6vw}
+
+    /* Hero / Intro layout like the provided image: two columns, left text and right stacked images */
+    .intro{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:start}
+    .intro .lead{padding-top:6px}
+    .eyebrow{color:var(--sage);font-weight:700;margin-bottom:8px}
+    h1{font-family:'Playfair Display',serif;font-size:1.9rem;margin:0 0 12px}
+    p.lead{color:var(--muted);line-height:1.6}
+
+    .visuals{display:flex;flex-direction:column;gap:18px}
+    .visuals img{width:100%;border-radius:6px;background:#eee;display:block}
+    .visual-card{display:flex;gap:12px;align-items:center}
+    .visual-card img{width:84px;height:84px;object-fit:cover;border-radius:6px}
+
+    /* Sections */
+    section.feature{display:grid;grid-template-columns:1fr 420px;gap:36px;margin-top:36px;align-items:start}
+    .feature h2{font-family:'Playfair Display',serif;font-size:1.3rem;margin:0 0 8px}
+    .feature p{color:var(--muted);line-height:1.6}
+
+    .ai-image{display:block;margin:18px auto 0;width:260px}
+
+    .cta-box{background:#fff;border:1px solid rgba(0,0,0,0.04);padding:18px;border-radius:8px;margin-top:18px}
+
+    /* FAQ */
+    .faq{margin:56px 0}
+    .faq h3{text-align:center;color:var(--muted);font-weight:600}
+    .faq-list{max-width:860px;margin:22px auto}
+    .faq-item{border-top:1px solid rgba(0,0,0,0.04);padding:14px 0}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:500}
+    .faq-a{max-height:0;overflow:hidden;color:var(--muted);transition:max-height .32s ease;padding-top:8px}
+    .faq-item.open .faq-a{max-height:300px}
+
+    footer{padding:28px 6vw;text-align:center;color:var(--muted);border-top:1px solid rgba(0,0,0,0.04);background:transparent}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .intro,.feature{grid-template-columns:1fr;}
+      .visuals{order:2}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="logo">Tru<span>Medicines</span></div>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#ai">AI System</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <article class="intro">
+      <div class="lead">
+        <div class="eyebrow">Connecting You to Care, Anytime</div>
+        <h1>Experience the future of healthcare with our TelePack</h1>
+        <p class="lead">A seamless blend of simple hardware and compassionate virtual care that keeps families connected while making medication management effortless.</p>
+
+        <div style="margin-top:18px">
+          <a href="#features" style="background:var(--sage);color:#fff;padding:10px 16px;border-radius:28px;text-decoration:none;font-weight:600;">Learn More</a>
+          <a href="#contact" style="margin-left:10px;color:var(--sage);text-decoration:none;font-weight:600">Contact Sales</a>
+        </div>
+      </div>
+
+      <aside class="visuals" aria-hidden="true">
+        <!-- Use placeholders; replace with real images or assets in repo -->
+        <img src="assets/telepack-top.jpg" alt="TelePack overview" onerror="this.style.opacity=.65;this.style.background='#f3f3f3'">
+        <div class="visual-card">
+          <img src="assets/device-1.jpg" alt="Device small">
+          <div style="flex:1">
+            <strong>Seamless Video Conferencing</strong>
+            <div style="color:var(--muted);font-size:0.95rem">Connect with family and care teams through an 8-inch touch display and integrated video.</div>
+          </div>
+        </div>
+      </aside>
+    </article>
+
+    <section id="features" class="feature">
+      <div>
+        <h2>Seamless Video Conferencing</h2>
+        <p>The TelePack ensures that families can connect with each other effortlessly through integrated video conferencing capabilities. With an 8-inch touch screen, it allows users to engage in real-time conversations with loved ones or healthcare providers at the touch of a button. The intuitive design makes it easy for anyone to use, ensuring that distance is no longer a barrier to communication and support during treatment processes.</p>
+
+        <h2 style="margin-top:18px">AI-Powered Medication Management</h2>
+        <p>Our advanced AI Managed Medications system personalizes treatment plans based on individual patient needs. Utilizing sophisticated algorithms, the system analyzes data from various sources to determine the most effective medications and dosages for each user. By continuously learning from interactions and outcomes, this technology helps ensure adherence to medication schedules while optimizing health results over time.</p>
+
+        <div class="cta-box">
+          <strong>Learn About Our AI System</strong>
+          <p style="margin:8px 0 0;color:var(--muted)">24/7 support with avatar coaching: TruMedicines offers around-the-clock assistance via a talking avatar which provides instant answers to medication or general health questions. This virtual coach offers peace of mind knowing help is always available.</p>
+        </div>
+      </div>
+
+      <aside>
+        <img src="assets/device-2.jpg" alt="Medication device" class="ai-image">
+        <img src="assets/doctor.jpg" alt="Care team" style="width:100%;border-radius:6px;margin-top:18px">
+      </aside>
+    </section>
+
+    <section id="ai" style="margin-top:28px">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px">24/7 Support with Avatar Coaching</h2>
+      <p style="color:var(--muted);max-width:900px">TruMedicines combines advanced virtual technologies with compassionate care to offer around-the-clock assistance. Our avatar coaching provides immediate, friendly guidance for medication questions and basic health concerns — available day or night so customers never feel alone on their journey toward better health.</p>
+    </section>
+
+    <section id="faq" class="faq">
+      <h3>Frequently asked questions</h3>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">What is the TelePack and how does it work? <span>+</span></div>
+          <div class="faq-a">The TelePack is an all-in-one device that provides video calling, medication scheduling, and AI coaching. It pairs with your TruMedicines account and connects securely to our care platform.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How can TruMedicines help with medication management? <span>+</span></div>
+          <div class="faq-a">Our AI analyzes schedules and reminders and provides adherence support through the device and our mobile/portal interfaces.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What support channels are included? <span>+</span></div>
+          <div class="faq-a">Support is available 24/7 via avatar coach, live chat, email, and phone for verified customers.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:24px">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:680px">
+        <strong style="font-family:'Playfair Display',serif;font-size:1.1rem">Get in touch</strong>
+        <p style="color:var(--muted)">Email: hello@trumedicines.com · Phone: 1-800-TRU-MEDS</p>
+        <a href="mailto:hello@trumedicines.com" style="display:inline-block;background:var(--sage);color:#fff;padding:10px 16px;border-radius:28px;text-decoration:none;">Email Support</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div>&copy; 2026 TruMedicines — All rights reserved</div>
+  </footer>
+
+  <script>
+    // simple FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const q = item.querySelector('.faq-q');
+      q.addEventListener('click', () => {
+        const open = item.classList.toggle('open');
+        // close others
+        document.querySelectorAll('.faq-item').forEach(i => { if(i!==item) i.classList.remove('open') });
+      });
+    });
+  </script>
+</body>
+</html>
