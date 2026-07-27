@@ -4,12 +4,18 @@ A static marketing site for TruMedicines' TelePacks Ai-Managed Medication Dispen
 
 ## Structure
 
+All files live in the root — no subfolders:
+
 ```
 index.html
-assets/
-  css/style.css
-  js/main.js
-  img/           (logo, device, and team photos)
+style.css
+main.js
+logo.jpg
+device-silver.png
+packets.jpg
+dr.jpg
+nurse.jpg
+avatar.jpg
 ```
 
 No build step — it's plain HTML/CSS/JS.
